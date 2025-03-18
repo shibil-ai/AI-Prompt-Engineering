@@ -8,7 +8,7 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY") or input("Enter your Hugg
 login(token=HUGGINGFACE_API_KEY)
 
 # Load a free AI chatbot model
-chatbot = pipeline("text-generation", model="tiiuae/falcon-7b-instruct")
+chatbot = pipeline("text-generation", model="mistralai/Mistral-7B-Instruct-v0.1", device="cpu")
 
 # Function to generate AI responses
 def generate_response(prompt):
@@ -24,7 +24,7 @@ def generate_response(prompt):
     )
 
     return response[0]["generated_text"].strip()
-    
+
 # Test with different prompts
 prompts = [
     "Explain quantum physics in simple terms.",
