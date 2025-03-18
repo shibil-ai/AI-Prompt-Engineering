@@ -12,22 +12,18 @@ chatbot = pipeline("text-generation", model="facebook/opt-1.3b")
 
 # Function to generate AI responses
 def generate_response(prompt):
-    input_prompt = f"### Question: {prompt}
-### Answer:"  # ✅ Properly formatted string
-
     response = chatbot(
-        input_prompt,
+        prompt,  # Directly passing the prompt
         max_length=150,  
         truncation=True,  
         pad_token_id=50256,  
         num_return_sequences=1,  
-        temperature=0.7,  
-        top_p=0.9,  
-        do_sample=True  # ✅ Sampling enabled for variety
+        temperature=0.8,  # More creativity
+        top_p=0.95,  # More diversity in responses
+        do_sample=True  # Ensures varied output
     )
 
-    return response[0]["generated_text"].replace(input_prompt, "").strip()
-    
+    return response[0]["generated_text"]
 # Test with different prompts
 prompts = [
     "Explain quantum physics in simple terms.",
