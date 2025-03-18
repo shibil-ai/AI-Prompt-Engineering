@@ -27,6 +27,7 @@ def generate_response(prompt):
     )
 
     return response[0]["generated_text"].replace(input_prompt, "").strip()
+      
 # Test with different prompts
 prompts = [
     "Explain quantum physics in simple terms.",
