@@ -12,21 +12,18 @@ chatbot = pipeline("text-generation", model="tiiuae/falcon-7b-instruct")
 
 # Function to generate AI responses
 def generate_response(prompt):
-    input_prompt = f"### Instruction: {prompt}
-### Response:"
-
     response = chatbot(
-        input_prompt,
-        max_length=250,  # Increased length for better responses
+        prompt,  # Direct prompt input (No f-strings!)
+        max_length=250,  
         truncation=True,  
         pad_token_id=50256,  
         num_return_sequences=1,  
-        temperature=0.7,  # More balanced responses
+        temperature=0.7,  
         top_p=0.9,  
         do_sample=True  
     )
 
-    return response[0]["generated_text"].replace(input_prompt, "").strip()
+    return response[0]["generated_text"].strip()
     
 # Test with different prompts
 prompts = [
