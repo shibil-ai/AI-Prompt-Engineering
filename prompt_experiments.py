@@ -8,30 +8,28 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY") or input("Enter your Hugg
 login(token=HUGGINGFACE_API_KEY)
 
 # Load a free AI chatbot model
-chatbot = pipeline("text-generation", model="mistralai/Mistral-7B-Instruct-v0.1", device="cpu")
+chatbot = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", device="cuda")
 
 # Function to generate AI responses
-def generate_response(prompt):
-    response = chatbot(
-        prompt,  # Direct prompt input (No f-strings!)
-        max_length=250,  
-        truncation=True,  
-        pad_token_id=50256,  
-        num_return_sequences=1,  
-        temperature=0.7,  
-        top_p=0.9,  
-        do_sample=True  
+# Define a test prompt
+test_prompt = "How can AI improve productivity in the workplace?"
+
+# Tokenize the input
+inputs = tokenizer(test_prompt, return_tensors="pt").to("cuda")
+
+# Generate response
+with torch.no_grad():
+    output = model.generate(
+        **inputs, 
+        max_new_tokens=100,  # Limit output length
+        do_sample=True,  # Enable sampling for diverse responses
+        temperature=0.7,  # Adjust temperature for randomness
+        top_p=0.9  # Nucleus sampling for better quality responses
     )
 
-    return response[0]["generated_text"].strip()
-
-# Test with different prompts
-prompts = [
-    "Explain quantum physics in simple terms.",
-    "Give me 5 startup ideas related to AI.",
-    "Write a creative story about a robot in space."
-]
-
+# Decode and print the model's response
+generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+print("🔹 Model Response:", generated_text)
 for prompt in prompts:
     print("\n🔹 Prompt:", prompt)
     print("💡 AI Response:", generate_response(prompt))
