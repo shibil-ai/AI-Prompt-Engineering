@@ -8,7 +8,7 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY") or input("Enter your Hugg
 login(token=HUGGINGFACE_API_KEY)
 
 # Load a free AI chatbot model
-chatbot = pipeline("text-generation", model="facebook/opt-1.3b", device="cpu")
+chatbot = pipeline("text-generation", model="HuggingFaceH4/zephyr-7b-beta", device="cpu")
 
 # Function to generate AI responses
 def generate_response(prompt):
